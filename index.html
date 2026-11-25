@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qorgau KZ</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f6fa;color:#172b40}
+header{background:#102f50;color:white;padding:22px 18px}
+header h1{margin:0;font-size:27px}
+header p{margin:7px 0 0;color:#c9d9e9}
+main{max-width:900px;margin:auto;padding:18px}
+.card{background:white;padding:20px;border-radius:16px;margin:15px 0;box-shadow:0 3px 14px #18334b12}
+h2{font-size:19px;margin-top:0}
+label{display:block;font-weight:bold;margin:13px 0 7px}
+select,input,textarea{width:100%;padding:13px;border:1px solid #ccd7e2;border-radius:9px;font-size:15px;background:white}
+button{border:0;background:#1264a3;color:white;padding:13px 18px;border-radius:9px;font-size:15px;margin-top:13px;cursor:pointer}
+button:hover{opacity:.9}
+.alert{background:#fff0ed;border-left:5px solid #e34d3e;padding:15px;border-radius:9px;margin-top:12px}
+.map{background:#e8f1f6;border-radius:13px;padding:18px;text-align:center}
+.map svg{width:100%;max-height:270px}
+.legend{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;font-size:13px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px}
+footer{text-align:center;color:#718096;padding:25px;font-size:12px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+<h1>🛡️ QORGAU KZ</h1>
+<p>Қауіпсіздік — әр азаматтың құқығы</p>
+</header>
+<main>
+
+<div class="card">
+<h2>📍 Менің орналасқан жерім</h2>
+<label>Облысты таңдаңыз</label>
+<select id="region">
+<option>Алматы облысы</option>
+<option>Абай облысы</option>
+<option>Ақмола облысы</option>
+<option>Ақтөбе облысы</option>
+<option>Атырау облысы</option>
+<option>Батыс Қазақстан облысы</option>
+<option>Жамбыл облысы</option>
+<option>Жетісу облысы</option>
+<option>Қарағанды облысы</option>
+<option>Қостанай облысы</option>
+<option>Қызылорда облысы</option>
+<option>Маңғыстау облысы</option>
+<option>Павлодар облысы</option>
+<option>Солтүстік Қазақстан облысы</option>
+<option>Түркістан облысы</option>
+<option>Ұлытау облысы</option>
+<option>Шығыс Қазақстан облысы</option>
+<option>Астана қаласы</option>
+<option>Алматы қаласы</option>
+<option>Шымкент қаласы</option>
+</select>
+<label>Қала немесе аудан</label>
+<input id="city" placeholder="Мысалы: Жетісай ауданы">
+<button onclick="saveLocation()">Сақтау</button>
+<p id="saved"></p>
+</div>
+
+<div class="card">
+<h2>🚨 Табиғи апаттар туралы хабарламалар</h2>
+<div id="alerts">
+<p>Әзірге жаңа хабарлама жоқ.</p>
+</div>
+<p style="font-size:12px;color:#718096">Бұл — демонстрациялық жоба. Хабарламалар ресми төтенше жағдай ескертулері болып саналмайды.</p>
+</div>
+
+<div class="card">
+<h2>🗺️ Қауіпсіздік картасы</h2>
+<div class="map">
+<svg viewBox="0 0 600 280" role="img" aria-label="Қазақстанның сызбалық картасы">
+<path d="M55 100 L105 55 L190 65 L235 35 L315 58 L365 35 L440 65 L510 95 L540 155 L490 205 L410 215 L350 250 L275 220 L205 235 L145 190 L75 180 Z" fill="#c6dfe9" stroke="#47849d" stroke-width="3"/>
+<g fill="#176ca3" stroke="white" stroke-width="3">
+<circle cx="180" cy="130" r="9"/><circle cx="280" cy="110" r="9"/><circle cx="390" cy="140" r="9"/><circle cx="450" cy="180" r="9"/>
+</g>
+<g fill="#df5147" stroke="white" stroke-width="3">
+<circle cx="320" cy="170" r="11"/>
+</g>
+<g font-size="13" fill="#173b52">
+<text x="130" y="115">Батыс</text>
+<text x="250" y="85">Орталық</text>
+<text x="380" y="115">Шығыс</text>
+<text x="290" y="195">Қауіп аймағы</text>
+</g>
+</svg>
+<div class="legend">
+<span><i class="dot" style="background:#176ca3"></i>Көмек пункті</span>
+<span><i class="dot" style="background:#df5147"></i>Демо қауіп аймағы</span>
+</div>
+</div>
+<p style="font-size:12px;color:#718096">Карта — шартты сызба. Белгілер нақты баспаналар мен расталған қауіп орындарын көрсетпейді.</p>
+</div>
+
+<div class="card">
+<h2>🏠 Көмек көрсету пункттері</h2>
+<div id="shelters">
+<p>Облысты таңдағаннан кейін демонстрациялық пункттер көрсетіледі.</p>
+</div>
+<button onclick="showShelters()">Пункттерді көрсету</button>
+</div>
+
+<div class="card">
+<h2>🔐 Әкімші панелі</h2>
+<label>Әкімші құпиясөзі</label>
+<input id="password" type="password" placeholder="Құпиясөз">
+<button onclick="login()">Кіру</button>
+<div id="admin" class="hidden">
+<label>Хабарлама мәтіні</label>
+<textarea id="message" rows="3" placeholder="Мысалы: Демонстрациялық су тасқыны ескертуі"></textarea>
+<button onclick="publish()">Хабарлама жариялау</button>
+</div>
+</div>
+
+</main>
+<footer>Qorgau KZ © 2026 | Ғылыми жоба демонстрациясы</footer>
+
+<script>
+function saveLocation(){
+let r=document.getElementById('region').value;
+let c=document.getElementById('city').value;
+localStorage.setItem('qorgauRegion',r);
+localStorage.setItem('qorgauCity',c);
+document.getElementById('saved').innerText='✅ Сақталды: '+r+', '+c;
+}
+function showShelters(){
+let r=document.getElementById('region').value;
+document.getElementById('shelters').innerHTML=
+'<p>📍 '+r+' бойынша демонстрациялық көмек пункті</p>'+
+'<p>🏠 Уақытша баспана — үлгілік орын</p>'+
+'<p>🩺 Медициналық көмек пункті — үлгілік орын</p>'+
+'<p style="color:#718096;font-size:12px">Бұл орындар нақты мекенжайлар емес.</p>';
+}
+function login(){
+if(document.getElementById('password').value==='qorgau-demo'){
+document.getElementById('admin').classList.remove('hidden');
+alert('Әкімші режимі ашылды');
+}else alert('Құпиясөз қате');
+}
+function publish(){
+let m=document.getElementById('message').value;
+if(!m.trim())return alert('Хабарлама енгізіңіз');
+document.getElementById('alerts').innerHTML=
+'<div class="alert"><b>🚨 ДЕМО ХАБАРЛАМА</b><br>'+m.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+document.getElementById('message').value='';
+}
+</script>
+</body>
+</html>
